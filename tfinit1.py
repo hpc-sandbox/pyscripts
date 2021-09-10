@@ -1,7 +1,7 @@
 import random,sys,os
 import numpy as np
 import tensorflow as tf
-from tensorflow.v1.compat.keras.backend import set_session
+from tensorflow.compat.v1.keras.backend import set_session
 tf_version = int((tf.__version__)[0])
 
 from tensorflow.python.client import device_lib
