@@ -1,14 +1,14 @@
 import random,sys,os
 import numpy as np
 import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
+from tensorflow.v1.compat.keras.backend import set_session
 tf_version = int((tf.__version__)[0])
 
 from tensorflow.python.client import device_lib
-from keras.models import Sequential,Model
-from keras.layers import Dense,Dropout,Input,BatchNormalization
-from keras.optimizers import Adam
-from keras import backend as K
+from tensorflow.keras.models import Sequential,Model
+from tensorflow.keras.layers import Dense,Dropout,Input,BatchNormalization
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras import backend as K
 
 import random, math
 import time
@@ -36,31 +36,31 @@ if __name__ == "__main__":
             config.gpu_options.allow_growth = True
             sess = tf.Session(config=config)
             set_session(sess)
-        elif tf_version >= 2:
-            '''
-            config = tf.compat.v1.ConfigProto()
-            config.gpu_options.allow_growth = True
-            sess = tf.compat.v1.Session(config=config)
-            tf.compat.v1.keras.backend.set_session(sess)
-            '''
-            tf.debugging.set_log_device_placement(True)
-            gpus = tf.config.experimental.list_physical_devices('GPU')
-            if gpus:
-                try:
-                    for gpu in gpus:
-                        tf.config.experimental.set_memory_growth(gpu, True)
-                    '''
-                    # Restrict TensorFlow to only allocate MEM_LIMIT amount of memory
-                    MEM_LIMIT = 16000 / self.size
-                    for devIdx in np.arange(len(gpus)):
-                        tf.config.experimental.set_virtual_device_configuration(
-                            gpus[devIdx],
-                            [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=MEM_LIMIT)])
-                    '''
-                    logical_gpus = tf.config.experimental.list_logical_devices('GPU')
-                    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
-                except RuntimeError as e:
-                    print(e)
+    elif tf_version >= 2:
+        '''
+        config = tf.compat.v1.ConfigProto()
+        config.gpu_options.allow_growth = True
+        sess = tf.compat.v1.Session(config=config)
+        tf.compat.v1.keras.backend.set_session(sess)
+        '''
+        tf.debugging.set_log_device_placement(True)
+        gpus = tf.config.experimental.list_physical_devices('GPU')
+        if gpus:
+            try:
+                for gpu in gpus:
+                    tf.config.experimental.set_memory_growth(gpu, True)
+                '''
+                # Restrict TensorFlow to only allocate MEM_LIMIT amount of memory
+                MEM_LIMIT = 16000 / self.size
+                for devIdx in np.arange(len(gpus)):
+                    tf.config.experimental.set_virtual_device_configuration(
+                        gpus[devIdx],
+                        [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=MEM_LIMIT)])
+                '''
+                logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+                print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+            except RuntimeError as e:
+                print(e)
 
     ITERS = 5 
     matsize = 1000
@@ -73,4 +73,4 @@ if __name__ == "__main__":
         time.sleep(10)
 
     elapse = time.time() - start        
-    print(" Average elapsed time per iteration = ", sum_elapse/(ITERS if ITERS else 1))
+    print(" Average elapsed time per iteration = ", elapse/(ITERS if ITERS else 1))
