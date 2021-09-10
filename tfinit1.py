@@ -45,6 +45,7 @@ if __name__ == "__main__":
         '''
         tf.debugging.set_log_device_placement(True)
         gpus = tf.config.experimental.list_physical_devices('GPU')
+        print(num_cores, "Cores,", num_cpus, "CPUs,", len(gpus), "Physical GPUs,")
         if gpus:
             try:
                 for gpu in gpus:
